@@ -1,7 +1,14 @@
-import React from 'react';
-import { render } from 'react-dom';
-import { BrowserRouter, Match, Miss } from 'react-router';
+import React, { Component } from 'react';
+import ReactDOM from 'react-dom';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
+
+import {
+  BrowserRouter,
+  Link,
+  Route,
+  Switch,
+  Redirect,
+} from 'react-router-dom';
 
 import './css/style.css';
 import App from './components/App';
@@ -10,18 +17,15 @@ import NotFound from './components/NotFound';
 
 // const repo = `/${window.location.pathname.split('/')[1]}`;
 
-const Root = () => {
-  return (
-    <MuiThemeProvider>
-      <BrowserRouter>
-        <div>
-          <Match exactly pattern="/" component={StorePicker} />
-          <Match pattern="/store/:storeId" component={App} />
-          <Miss component={NotFound} />
-        </div>
-      </BrowserRouter>
-    </MuiThemeProvider>
-  )
-}
-
-render(<Root/>, document.querySelector('#main'));
+ReactDOM.render(
+  <MuiThemeProvider>
+    <BrowserRouter history={history}>
+      <Switch>
+        <Route path="/" exact component={StorePicker} />
+        <Route path="/store/:storeId" component={App} />
+        <Route component={NotFound} />
+      </Switch>
+    </BrowserRouter>
+  </MuiThemeProvider>,
+  document.getElementById('root')
+);

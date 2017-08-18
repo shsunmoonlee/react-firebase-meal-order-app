@@ -1,33 +1,33 @@
 // This is just some sample data so you don't have to think of your own!
 const orders = {
   order1: {
-    name: 'seunghun',
+    name: 'seunghun Lee',
     status: 'ordered',
-    option: '',
+    option: 'rare',
     menu1: 3
   },
   order2: {
-    name: 'Amcia',
+    name: 'Szymon Korzeniowski',
     status: 'ordered',
-    option: '',
+    option: 'medium',
     menu2: 1
   },
   order3: {
-    name: '',
-    status: '',
-    option: '',
+    name: 'Marta Gajowczyk',
+    status: 'ordered',
+    option: 'well done',
     menu3: 3
   },
   order4: {
-    name: '',
-    status: '',
-    option: '',
+    name: 'Bartosz Pietrzak',
+    status: 'ordered',
+    option: 'medium',
     menu1: 1
   },
   order5: {
-    name: '',
-    status: '',
-    option: '',
+    name: 'Szymon Boniecki',
+    status: 'ordered',
+    option: 'rare',
     menu1: 2
   }
 };

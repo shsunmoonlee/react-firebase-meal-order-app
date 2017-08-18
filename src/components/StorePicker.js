@@ -1,5 +1,5 @@
 import React from 'react';
-import { getFunName } from '../helpers';
+import { getFunName } from '../helpers/helpers';
 
 class StorePicker extends React.Component {
   // constructor() {
@@ -13,7 +13,7 @@ class StorePicker extends React.Component {
     const storeId = this.storeInput.value;
     console.log(`Going to ${storeId}`)
     // second we're going to transition from / to /store/:storeId
-    this.context.router.transitionTo(`/store/${storeId}`);
+    this.props.history.push(`/store/${storeId}`);
   }
 
   render() {
@@ -29,7 +29,7 @@ class StorePicker extends React.Component {
 }
 
 StorePicker.contextTypes = {
-  router: React.PropTypes.object
+  history: React.PropTypes.object
 }
 
 export default StorePicker;
