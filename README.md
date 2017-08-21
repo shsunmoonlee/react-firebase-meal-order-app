@@ -10,4 +10,8 @@ To run the application, first download the repository.
 
 npm install && npm start
 
-Thanks @WesBos for the the design of the menu. 
+For testing,
+
+npm test
+
+Thanks @WesBos for the the design of the menu.
