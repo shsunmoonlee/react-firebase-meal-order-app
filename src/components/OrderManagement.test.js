@@ -1,17 +1,21 @@
 import React from "react";
 import { shallow, mount, render } from 'enzyme';
-import Order from "./Order";
+import OrderManagement from "./OrderManagement";
+import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 
-describe("Order is mounted", () => {
+describe("OrderManagement is mounted", () => {
   let props;
-  let mountedOrder;
-  const order = () => {
-    if (!mountedOrder) {
-      mountedOrder = mount(
-        <Order {...props} />
+  let mountedOrderManagement;
+
+  const orderManagement = () => {
+    if (!mountedOrderManagement) {
+      mountedOrderManagement = mount(
+        <MuiThemeProvider>
+          <OrderManagement {...props}/>
+        </MuiThemeProvider>
       );
     }
-    return mountedOrder;
+    return mountedOrderManagement;
   }
 
   // beforeEach(() => {
@@ -99,22 +103,48 @@ describe("Order is mounted", () => {
           status: 'available'
         }
       },
-      order: {
-        name: 'seunghun Lee',
-        status: 'ordered',
-        option: 'rare',
-        menu1: 3
+      orders: {
+        order1: {
+          name: 'seunghun Lee',
+          status: 'ordered',
+          option: 'rare',
+          menu1: 3
+        },
+        order2: {
+          name: 'Szymon Korzeniowski',
+          status: 'ordered',
+          option: 'medium',
+          menu2: 1
+        },
+        order3: {
+          name: 'Marta Gajowczyk',
+          status: 'ordered',
+          option: 'well done',
+          menu3: 3
+        },
+        order4: {
+          name: 'Bartosz Pietrzak',
+          status: 'ordered',
+          option: 'medium',
+          menu1: 1
+        },
+        order5: {
+          name: 'Szymon Boniecki',
+          status: 'ordered',
+          option: 'rare',
+          menu1: 2
+        }
       },
-      removeFromOrder: jest.fn(),
-      placeOrder: jest.fn()
+      storeId: undefined,
+      updateExistingOrder: jest.fn()
     };
-    mountedOrder = undefined
+    mountedOrderManagement = undefined
   });
 
   // All tests will go here
   describe("the rendered div", () => {
     it("contains everything else that gets rendered", () => {
-      const divs = order().find("div");
+      const divs = orderManagement().find("div");
       // When using .find, enzyme arranges the nodes in order such
       // that the outermost node is first in the list. So we can
       // use .first() to get the outermost div.
@@ -124,28 +154,28 @@ describe("Order is mounted", () => {
       // method on lockScreen(). This is annoying, but we can use it
       // to verify that wrappingDiv contains everything else this
       // component renders.
-      expect(wrappingDiv.children()).toEqual(order().children());
+      expect(wrappingDiv.children()).toEqual(orderManagement().children());
     });
   });
 
-  it("always renders two buttons properly", () => {
-    expect(order().find('button').length).toBe(2);
-  });
+  // it("always renders two buttons properly", () => {
+  //   expect(orderManagement().find('h2').length).toBe(1);
+  // });
 // describe("rendered `Order display`", () => {
 //   it("does not receive any props", () => {
 //     const clockDisplay = mountedOrder().find(ClockDisplay);
 //     expect(Object.keys(clockDisplay.props()).length).toBe(0);
 //   });
 // });
-
-  describe("when `placeOrder` is defined", () => {
-    beforeEach(() => {
-      props.placeOrder = jest.fn();
-    });
-
-    it("sets the rendered `SlideToUnlock`'s `onSlide` prop to the same value as `onUnlocked`'", () => {
-      expect(order().props().placeOrder).toBe(props.placeOrder);
-    });
-  });
+  //
+  // describe("when `updateExistingOrder` is defined", () => {
+  //   beforeEach(() => {
+  //     props.updateExistingOrder = jest.fn();
+  //   });
+  //
+  //   it("sets the rendered `orderManagement`'s `updateExistingOrder` prop to the same value as `App`'", () => {
+  //     expect(orderManagement().props().updateExistingOrder).toBe(props.updateExistingOrder);
+  //   });
+  // });
 
 });

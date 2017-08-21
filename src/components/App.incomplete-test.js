@@ -1,17 +1,44 @@
 import React from "react";
 import { shallow, mount, render } from 'enzyme';
-import Order from "./Order";
+import App from "./App";
+import Order from './Order';
+import OrderManagement from './OrderManagement';
+import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 
-describe("Order is mounted", () => {
-  let props;
-  let mountedOrder;
-  const order = () => {
-    if (!mountedOrder) {
-      mountedOrder = mount(
-        <Order {...props} />
-      );
+const localStorageMock = (() => {
+  let store = {}
+  return {
+    getItem(key) {
+      return store[key]
+    },
+    setItem(key, value) {
+      store[key] = value.toString()
+    },
+    clear() {
+      store = {}
     }
-    return mountedOrder;
+  };
+})()
+
+global.localStorage = localStorageMock
+
+describe("App is mounted", () => {
+  let state;
+  let props;
+  let removeFromOrder;
+  let placeOrder;
+
+  let mountedApp;
+  const app = () => {
+    if (!mountedApp) {
+      mountedApp = mount(
+        <MuiThemeProvider>
+          <App {...props}/>
+        </MuiThemeProvider>
+      );
+      mountedApp.setState(state);
+    }
+    return mountedApp;
   }
 
   // beforeEach(() => {
@@ -26,6 +53,18 @@ describe("Order is mounted", () => {
 
   beforeEach(() => {
     props = {
+      match: {
+        params: {
+          storeId: 'Korean Restaurant'
+        }
+      }
+    };
+    state = {
+      match: {
+        params: {
+          storeId: 'Korean Restaurant'
+        }
+      },
       menues: {
         menu1: {
           name: 'Pacific Halibut',
@@ -105,16 +144,48 @@ describe("Order is mounted", () => {
         option: 'rare',
         menu1: 3
       },
-      removeFromOrder: jest.fn(),
-      placeOrder: jest.fn()
+      orders: {
+        order1: {
+          name: 'seunghun Lee',
+          status: 'ordered',
+          option: 'rare',
+          menu1: 3
+        },
+        order2: {
+          name: 'Szymon Korzeniowski',
+          status: 'ordered',
+          option: 'medium',
+          menu2: 1
+        },
+        order3: {
+          name: 'Marta Gajowczyk',
+          status: 'ordered',
+          option: 'well done',
+          menu3: 3
+        },
+        order4: {
+          name: 'Bartosz Pietrzak',
+          status: 'ordered',
+          option: 'medium',
+          menu1: 1
+        },
+        order5: {
+          name: 'Szymon Boniecki',
+          status: 'ordered',
+          option: 'rare',
+          menu1: 2
+        }
+      }
     };
-    mountedOrder = undefined
+    mountedApp = undefined;
+    removeFromOrder= jest.fn();
+    placeOrder= jest.fn();
   });
 
   // All tests will go here
   describe("the rendered div", () => {
     it("contains everything else that gets rendered", () => {
-      const divs = order().find("div");
+      const divs = app().find("div");
       // When using .find, enzyme arranges the nodes in order such
       // that the outermost node is first in the list. So we can
       // use .first() to get the outermost div.
@@ -124,28 +195,55 @@ describe("Order is mounted", () => {
       // method on lockScreen(). This is annoying, but we can use it
       // to verify that wrappingDiv contains everything else this
       // component renders.
-      expect(wrappingDiv.children()).toEqual(order().children());
+      expect(wrappingDiv.children()).toEqual(app().children());
     });
   });
 
-  it("always renders two buttons properly", () => {
-    expect(order().find('button').length).toBe(2);
+  it("always renders two Header properly", () => {
+    expect(app().find('Header').length).toBe(1);
   });
-// describe("rendered `Order display`", () => {
-//   it("does not receive any props", () => {
-//     const clockDisplay = mountedOrder().find(ClockDisplay);
-//     expect(Object.keys(clockDisplay.props()).length).toBe(0);
-//   });
-// });
+
+  // describe("rendered `OrderManagement`", () => {
+  //   it("does not receive any props", () => {
+  //     const clockDisplay = mountedOrder().find(ClockDisplay);
+  //     expect(Object.keys(clockDisplay.props()).length).toBe(0);
+  //   });
+  // });
 
   describe("when `placeOrder` is defined", () => {
-    beforeEach(() => {
-      props.placeOrder = jest.fn();
+    const order = app().find('Order');
+    it("renders an `Order`", () => {
+      expect(order.length).toBe(1);
     });
-
-    it("sets the rendered `SlideToUnlock`'s `onSlide` prop to the same value as `onUnlocked`'", () => {
-      expect(order().props().placeOrder).toBe(props.placeOrder);
+    it("sets the rendered `Order`'s `placeOrder` prop to the same value as `placeOrder`'", () => {
+      expect(order.instance().placeOrder()).toBe(state.placeOrder);
     });
   });
+
+  describe("when prop `orders` is passed", () => {
+
+    it("renders an `OrderManagement`", () => {
+      expect(app().find('OrderManagement').length).toBe(1);
+    });
+
+    it("passes `orders` to the rendered `orderManagement` as `children`", () => {
+      // const orderManagement = app().find('OrderManagement');
+      const wrapper = app().find('OrderManagement')
+
+      expect(wrapper.props().orders).toBe(state.orders);
+    });
+  });
+
+  describe("when `orders` is undefined", () => {
+    beforeEach(() => {
+      state.orders = {};
+    });
+
+    it("sets the rendered `OrderManagement`'s `orders` prop to undefined'", () => {
+      const orderManagement = app().find('OrderManagement');
+      expect(orderManagement.props().orders).not.toBeDefined();
+    });
+  });
+
 
 });

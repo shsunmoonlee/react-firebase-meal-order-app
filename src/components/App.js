@@ -193,16 +193,10 @@ class App extends React.Component {
         />
         <OrderManagement
           authed={this.state.authed}
-          addOrder={this.addOrder}
           updateExistingOrder={this.updateExistingOrder}
           orders={this.state.orders}
           params={this.props.match.params}
-          removeFromOrder={this.removeFromOrder}
-          placeOrder={this.placeOrder}
-          removeMenu={this.removeMenu}
-          loadSamples={this.loadSamples}
           menues={this.state.menues}
-          updateMenu={this.updateMenu}
           storeId={this.props.match.params.storeId}
         />
       </div>

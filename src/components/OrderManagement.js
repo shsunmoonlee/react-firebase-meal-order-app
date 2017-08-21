@@ -20,9 +20,7 @@ function setErrorMsg(error) {
     loginMessage: error
   }
 }
-const style = {
- margin: 15,
-};
+
 class OrderManagement extends React.Component {
   constructor() {
     super();
@@ -119,6 +117,9 @@ class OrderManagement extends React.Component {
   }
 
   renderLogin() {
+    const style = {
+     margin: 15,
+    };
     return (
       <nav className="login">
         <h2>Manage Orders</h2>
@@ -231,7 +232,6 @@ class OrderManagement extends React.Component {
 
   render() {
     const logout = <button onClick={this.logout}>Log Out!</button>;
-
     // check if they are no logged in at all
     if(!this.state.uid) {
       return <div>{this.renderLogin()}</div>
@@ -264,9 +264,6 @@ class OrderManagement extends React.Component {
 OrderManagement.propTypes = {
   menues: React.PropTypes.object.isRequired,
   orders: React.PropTypes.object.isRequired,
-  placeOrder: React.PropTypes.func.isRequired,
-  updateMenu: React.PropTypes.func.isRequired,
-  removeMenu: React.PropTypes.func.isRequired,
   // addMenu: React.PropTypes.func.isRequired,
   // loadSamples: React.PropTypes.func.isRequired,
   storeId: React.PropTypes.string.isRequired,
