@@ -71,7 +71,7 @@ class OrderManagement extends React.Component {
 
 
   logout() {
-    firebaseAuth.signOut().then(() => {
+    firebaseAuth().signOut().then(() => {
       this.setState({ uid: null });
     });
   }
