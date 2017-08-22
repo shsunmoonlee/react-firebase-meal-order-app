@@ -238,14 +238,14 @@ class OrderManagement extends React.Component {
     }
 
     // Check if they are the owner of the current store
-    if(this.state.uid !== this.state.owner) {
-      return (
-        <div>
-          <p>Sorry you arent the owner of this store!</p>
-          {logout}
-        </div>
-      )
-    }
+    // if(this.state.uid !== this.state.owner) {
+    //   return (
+    //     <div>
+    //       <p>Sorry you arent the owner of this store!</p>
+    //       {logout}
+    //     </div>
+    //   )
+    // }
 
     return (
       <div>
